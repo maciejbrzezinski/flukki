@@ -26,5 +26,8 @@ To get started with Flukki:
 
 ---
 
-Join us in this journey to transform app development and make it more efficient and accessible. Your contributions and feedback are invaluable in achieving this goal. Let's innovate together!
+Join us in this journey to transform app development and make it more efficient and accessible. Your contributions and feedback are invaluable in achieving this goal. Let's innovate together
+
+Email: **maciek@flukki.com**
+
 ![flukki](https://github.com/maciejbrzezinski/flukki/assets/34410554/83bcef1b-1ef8-41ee-8104-36752a148a29)
