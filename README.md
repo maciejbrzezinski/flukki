@@ -1,4 +1,5 @@
 # Flukki: Streamlining App Development
+![Zrzut ekranu 2024-01-13 o 22 03 32 PM](https://github.com/maciejbrzezinski/flukki/assets/34410554/6de626da-4f0b-43ef-a430-ba4fc6b8bb59)
 
 ## Description
 Flukki is an innovative open-source tool designed to revolutionize the way developers approach app development. With a focus on enhancing existing Flutter applications and automating unit test writing, Flukki aims to simplify and speed up the development process.
@@ -21,7 +22,9 @@ To get started with Flukki:
 3. **Install Dependencies**: Run `flutter pub get` in the terminal to install necessary dependencies.
 4. **Launch Flukki**: Run the application with `flutter run`.
 5. **Setup**: Pass your OpenAI api key, select Flutter project, select Dart SDK path.
+6. **Start** using by clicking generate tests buttons in the UI
 
 ---
 
 Join us in this journey to transform app development and make it more efficient and accessible. Your contributions and feedback are invaluable in achieving this goal. Let's innovate together!
+![flukki](https://github.com/maciejbrzezinski/flukki/assets/34410554/83bcef1b-1ef8-41ee-8104-36752a148a29)
