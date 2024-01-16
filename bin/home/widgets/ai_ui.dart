@@ -12,6 +12,7 @@ class AiUi extends StatefulWidget {
 
 class _AiUiState extends State<AiUi> {
   final outputScrollController = ScrollController();
+  final taskController = TextEditingController();
 
   final searchController = TextEditingController();
   final openAIApiKeyController = TextEditingController();
@@ -128,26 +129,34 @@ class _AiUiState extends State<AiUi> {
                       Expanded(
                         child: Column(
                           children: [
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: TextField(
-                                controller: searchController,
-                                decoration: const InputDecoration(
-                                  hintText: 'Search',
-                                  border: OutlineInputBorder(),
-                                ),
-                                onChanged: (value) {
-                                  setState(
-                                    () {
-                                      files = currentProjectController
-                                          .getCurrentProjectDartFilesToTest()
-                                          .where((element) => element
-                                              .toLowerCase()
-                                              .contains(value.toLowerCase()))
-                                          .toList();
-                                    },
-                                  );
-                                },
+                            Flexible(
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: TextField(
+                                        controller: searchController,
+                                        decoration: const InputDecoration(
+                                          hintText: 'Search',
+                                          border: OutlineInputBorder(),
+                                        ),
+                                        onChanged: (value) {
+                                          setState(
+                                            () {
+                                              files = currentProjectController
+                                                  .getCurrentProjectDartFilesToTest()
+                                                  .where((element) => element
+                                                      .toLowerCase()
+                                                      .contains(value.toLowerCase()))
+                                                  .toList();
+                                            },
+                                          );
+                                        },
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                             Expanded(
@@ -183,24 +192,75 @@ class _AiUiState extends State<AiUi> {
                           ],
                         ),
                       ),
+                      // tutaj
                       Expanded(
-                        child: TextField(
-                          scrollController: outputScrollController,
-                          controller: TextEditingController()
-                            ..text = flukkiBrainController.output,
-                          expands: true,
-                          readOnly: true,
-                          maxLines: null,
-                          // minLines: 15,
-                          textAlign: TextAlign.left,
-                          textAlignVertical: TextAlignVertical.top,
-                          decoration: const InputDecoration(
-                            hintText: 'Output',
-                            border: OutlineInputBorder(),
+                        child: Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Column(
+                            children: [
+                              Expanded(
+                                child: Padding(
+                                  padding: const EdgeInsets.only(right: 16.0),
+                                  child: TextField(
+                                    controller: taskController,
+                                    maxLines: 4,
+                                    minLines: 4,
+                                    decoration: const InputDecoration(
+                                        hintText:
+                                        'Okay, now you can give me some task',
+                                        border: OutlineInputBorder()),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                width: 120,
+                                height: 48,
+                                child: Builder(builder: (context) {
+                                  final isWorking = false.obs;
+                                  return Obx(() {
+                                    return ElevatedButton(
+                                        onPressed: isWorking.value
+                                            ? null
+                                            : () async {
+                                          try {
+                                            isWorking.value = true;
+                                            await flukkiBrainController
+                                                .start(taskController.text);
+                                            isWorking.value = false;
+                                          } catch (e) {
+                                            isWorking.value = false;
+                                            flukkiBrainController
+                                                .addOutputLine(e.toString());
+                                          }
+                                        },
+                                        child: Text(isWorking.value
+                                            ? 'Working...'
+                                            : 'Do the task'));
+                                  });
+                                }),
+                              ),
+                            ],
                           ),
                         ),
                       ),
                     ],
+                  ),
+                ),
+              ),
+              Expanded(
+                child: TextField(
+                  scrollController: outputScrollController,
+                  controller: TextEditingController()
+                    ..text = flukkiBrainController.output,
+                  expands: true,
+                  readOnly: true,
+                  maxLines: null,
+                  // minLines: 15,
+                  textAlign: TextAlign.left,
+                  textAlignVertical: TextAlignVertical.top,
+                  decoration: const InputDecoration(
+                    hintText: 'Output',
+                    border: OutlineInputBorder(),
                   ),
                 ),
               ),
@@ -234,7 +294,7 @@ class _AiUiState extends State<AiUi> {
   Future<void> startGeneration(String path) async {
     try {
       flukkiBrainController.isWorking = true;
-      await flukkiBrainController.start(path);
+      await flukkiBrainController.generateTests(path);
       flukkiBrainController.isWorking = false;
     } catch (e) {
       flukkiBrainController.isWorking = false;
