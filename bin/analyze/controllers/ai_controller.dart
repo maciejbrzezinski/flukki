@@ -1,12 +1,12 @@
 import 'package:dart_openai/dart_openai.dart';
 
+import '../../ai/models/add_file.dart';
 import '../../ai/models/determine_models_models.dart';
 import '../../ai/models/generate_tests_models.dart';
+import '../../ai/models/modify_file.dart';
+import '../../ai/models/split_task.dart';
 import '../../core/conrtollers_interfaces.dart';
 import '../../server_core/base_models.dart';
-import '../models/add_file.dart';
-import '../models/modify_file.dart';
-import '../models/split_task.dart';
 
 AIController get aiController => handleDependency(() => AIController());
 
