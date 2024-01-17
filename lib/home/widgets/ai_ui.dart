@@ -199,9 +199,9 @@ class _AiUiState extends State<AiUi> {
                                     controller: taskController,
                                     maxLines: 4,
                                     minLines: 4,
-                                    decoration: const InputDecoration(
+                                    decoration: InputDecoration(
                                         hintText:
-                                            'Okay, now you can give me some task',
+                                            'Don\'t just stand there, code something!',
                                         border: OutlineInputBorder()),
                                   ),
                                 ),
