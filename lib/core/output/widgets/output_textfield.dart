@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../controllers/output_controller.dart';
 
@@ -17,21 +18,24 @@ class OutputTextField extends StatelessWidget {
             curve: Curves.easeInOut);
       } catch (_) {}
     });
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-      child: TextField(
-        scrollController: outputScrollController,
-        controller: TextEditingController()..text = outputController.output,
-        expands: true,
-        readOnly: true,
-        maxLines: null,
-        textAlign: TextAlign.left,
-        textAlignVertical: TextAlignVertical.top,
-        decoration: const InputDecoration(
-          hintText: 'Output',
-          border: OutlineInputBorder(),
-        ),
-      ),
+    return Obx(() {
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: TextField(
+            scrollController: outputScrollController,
+            controller: TextEditingController()..text = outputController.output,
+            expands: true,
+            readOnly: true,
+            maxLines: null,
+            textAlign: TextAlign.left,
+            textAlignVertical: TextAlignVertical.top,
+            decoration: const InputDecoration(
+              hintText: 'Output',
+              border: OutlineInputBorder(),
+            ),
+          ),
+        );
+      }
     );
   }
 }
