@@ -1,6 +1,6 @@
 # Flukki: Streamlining App Development
-![Zrzut ekranu 2024-01-17 o 18 01 28](https://github.com/maciejbrzezinski/flukki/assets/34410554/f6aa7181-ca2d-4ecc-a6dc-adaa6ce5c6e6)
-First commit developed by Flukki: https://github.com/maciejbrzezinski/flukki/commit/70cd801fcef6b45d094fcf217e62698ada79b884 (it has done the task shown on the screenshot above!)
+![Zrzut ekranu 2024-01-17 o 18 01 28](https://github.com/maciejbrzezinski/flukki/assets/34410554/7a6c581c-226c-4d7d-bd60-eb2d4e3ec2ad)
+🎉 First commit developed by Flukki: https://github.com/maciejbrzezinski/flukki/commit/70cd801fcef6b45d094fcf217e62698ada79b884 (it has done the task shown on the screenshot above!)
 
 ## Description
 Flukki is an innovative open-source tool designed to revolutionize the way developers approach app development. With a focus on enhancing existing Flutter applications and automating unit test writing, Flukki aims to simplify and speed up the development process.
