@@ -14,7 +14,7 @@ As of now, Flukki is capable of:
 - Enhancing the logic of existing Flutter applications.
 
 ## What's Next?
-- **App Generation from Descriptions**: The next big step for Flukki is to start working on generating entire applications from scratch based on user descriptions. This feature is set to begin development in the near future.
+- **App Generation from Descriptions**: The next big step for Flukki is to start working on generating entire applications from scratch based on user descriptions.
 
 ## How to Run Flukki
 To get started with Flukki:
