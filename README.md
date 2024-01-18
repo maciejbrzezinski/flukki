@@ -3,15 +3,15 @@
 🎉 First commit developed by Flukki: https://github.com/maciejbrzezinski/flukki/commit/70cd801fcef6b45d094fcf217e62698ada79b884 (it has done the task shown on the screenshot above!)
 
 ## Description
-Flukki is an innovative open-source tool designed to revolutionize the way developers approach app development. With a focus on enhancing existing Flutter applications and automating unit test writing, Flukki aims to simplify and speed up the development process.
+Flukki is an open-source tool designed to revolutionize the way developers approach app development.
 
 ## Goal
-The primary goal of Flukki is to provide developers with a powerful assistant that not only augments existing Flutter apps but also, in the near future, generates new applications from just a description. This project is dedicated to reducing development time and making app creation more accessible.
+Flukki aims to simplify and speed up the development process.
 
 ## Current State
 As of now, Flukki is capable of:
 - Writing unit tests automatically, saving time and effort in the testing phase.
-- Enhancing the logic of existing Flutter applications. [Prompt logic is ready, no UI yet]
+- Enhancing the logic of existing Flutter applications.
 
 ## What's Next?
 - **App Generation from Descriptions**: The next big step for Flukki is to start working on generating entire applications from scratch based on user descriptions. This feature is set to begin development in the near future.
