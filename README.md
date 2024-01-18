@@ -23,7 +23,7 @@ To get started with Flukki:
 3. **Install Dependencies**: Run `flutter pub get` in the terminal to install necessary dependencies.
 4. **Launch Flukki**: Run the application with `flutter run`.
 5. **Setup**: Pass your OpenAI api key, select Flutter project, select Dart SDK path.
-6. **Start** using by clicking generate tests buttons in the UI
+6. **Start** using by clicking generate tests buttons or by providing some coding task
 
 ---
 
