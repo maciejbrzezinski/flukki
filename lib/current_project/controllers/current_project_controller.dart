@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:dart_openai/dart_openai.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:get/get.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../core/output/controllers/output_controller.dart';
@@ -71,7 +72,8 @@ class CurrentProjectController {
       _currentProjectPath.value != null && _dartSdkPath.value != null;
 
   Future<void> chooseProject() async {
-    var selected = await FilePicker.platform.getDirectoryPath();
+    var selected = await FilePicker.platform.getDirectoryPath(
+        initialDirectory: (await getApplicationDocumentsDirectory()).path);
     if (selected != null) {
       selected = selected.replaceAll('/Volumes/Macintosh HD/', '/');
       _currentProjectPath.value = selected;
@@ -86,7 +88,8 @@ class CurrentProjectController {
   }
 
   Future<void> chooseDartSdkPath() async {
-    var selectedSdkPath = await FilePicker.platform.getDirectoryPath();
+    var selectedSdkPath = await FilePicker.platform
+        .getDirectoryPath(initialDirectory: dartSdkPath);
     if (selectedSdkPath != null) {
       selectedSdkPath =
           selectedSdkPath.replaceAll('/Volumes/Macintosh HD/', '/');

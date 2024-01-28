@@ -20,6 +20,7 @@ dependencies:
   flutter_tree: ^2.0.3
   cupertino_icons: ^1.0.2
   google_fonts: ^6.1.0
+  path_provider: ^2.1.2
 
 dev_dependencies:
   http: ^1.1.0
