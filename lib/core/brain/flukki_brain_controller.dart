@@ -6,6 +6,7 @@ import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/file_system/physical_file_system.dart';
 import 'package:flukki/ai/controllers/tasks_controller.dart';
 import 'package:flukki/ai/controllers/tests_controller.dart';
+import 'package:flukki/home/controllers/status_controller.dart';
 import 'package:get/get.dart';
 
 import '../output/controllers/output_controller.dart';
@@ -33,6 +34,7 @@ class FlukkiBrainController {
   }
 
   Future<void> start(String task) async {
+    statusController.currentJob = 'Doing task: $task';
     if (task.isEmpty) {
       addOutputLine('Task is empty');
       addOutputLine('');
@@ -181,8 +183,8 @@ class FlukkiBrainController {
         addOutputLine('');
       }
 
-      addOutputLine('I\'m done, bye');
       addOutputLine('');
+      statusController.finish('I\'m done, bye');
     } catch (e, s) {
       addOutputLine(e.toString() + s.toString());
     }
@@ -190,6 +192,7 @@ class FlukkiBrainController {
   }
 
   Future<void> generateTests(String path) async {
+    statusController.currentJob = 'Generating tests for $path';
     final project = currentProjectController.currentProjectPath!;
 
     addOutputLine('Hello, I will write tests for this file:');
@@ -255,7 +258,7 @@ class FlukkiBrainController {
       }
       file.writeAsStringSync(generateTestResponse.newTestFileContent);
 
-      addOutputLine('I\'m done, bye');
+      statusController.finish('I\'m done, bye');
       addOutputLine('');
     } catch (e, s) {
       addOutputLine(e.toString() + s.toString());

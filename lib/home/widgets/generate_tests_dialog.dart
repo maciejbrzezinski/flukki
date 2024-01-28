@@ -1,3 +1,4 @@
+import 'package:flukki/home/controllers/status_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -41,12 +42,12 @@ class _GenerateTestsDialogState extends State<GenerateTestsDialog> {
                 ),
                 onChanged: (value) {
                   setState(
-                        () {
+                    () {
                       files = currentProjectController
                           .getCurrentProjectDartFilesToTest()
                           .where((element) => element
-                          .toLowerCase()
-                          .contains(value.toLowerCase()))
+                              .toLowerCase()
+                              .contains(value.toLowerCase()))
                           .toList();
                     },
                   );
@@ -59,8 +60,8 @@ class _GenerateTestsDialogState extends State<GenerateTestsDialog> {
                 shrinkWrap: true,
                 itemBuilder: (context, index) {
                   final file = files[index];
-                  final pathWithoutProject = file.split(
-                      currentProjectController.currentProjectPath!)[1];
+                  final pathWithoutProject = file
+                      .split(currentProjectController.currentProjectPath!)[1];
                   return Card(
                     child: ListTile(
                       title: Text(pathWithoutProject),
@@ -69,9 +70,9 @@ class _GenerateTestsDialogState extends State<GenerateTestsDialog> {
                           onPressed: flukkiBrainController.isWorking
                               ? null
                               : () {
-                                startGeneration(file);
-                                Navigator.pop(context);
-                              },
+                                  startGeneration(file);
+                                  Navigator.pop(context);
+                                },
                           child: Text(flukkiBrainController.isWorking
                               ? 'Generating tests...'
                               : 'Generate tests'),
@@ -96,6 +97,7 @@ class _GenerateTestsDialogState extends State<GenerateTestsDialog> {
     } catch (e) {
       flukkiBrainController.isWorking = false;
       addOutputLine(e.toString());
+      statusController.finishWithError(e.toString());
     }
   }
 }

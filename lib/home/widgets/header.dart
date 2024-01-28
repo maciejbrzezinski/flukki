@@ -14,49 +14,47 @@ class Header extends StatelessWidget {
       openAIApiKeyController.text = currentProjectController.openAIKey ?? '';
     }
 
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                    'Current project: ${currentProjectController.currentProjectPath?.split('/').last ?? 'Not set (required)'}'),
-                const SizedBox(width: 16),
-                TextButton(
-                  onPressed: () => currentProjectController.clearProject(),
-                  child: const Text('Close project'),
-                ),
-              ],
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Row(
+          children: [
+            Image.asset(
+              'assets/logo.webp',
+              width: 70,
             ),
-          ),
-          Row(
-            children: [
-              TextButton(
-                onPressed: () => showDialog(
+            const SizedBox(width: 16),
+            Text(
+                'Current project: ${currentProjectController.currentProjectPath?.split('/').last ?? 'Not set (required)'}'),
+            const SizedBox(width: 8),
+            TextButton(
+              onPressed: () => currentProjectController.clearProject(),
+              child: const Text('Close'),
+            ),
+          ],
+        ),
+        Row(
+          children: [
+            TextButton(
+              onPressed: () => showDialog(
+                context: context,
+                builder: (_) => GenerateTestsDialog(),
+              ),
+              child: const Text('Generate unit tests'),
+            ),
+            const SizedBox(width: 8),
+            IconButton(
+              onPressed: () {
+                showDialog(
                   context: context,
-                  builder: (_) => GenerateTestsDialog(),
-                ),
-                child: const Text('Generate unit tests'),
-              ),
-              const SizedBox(width: 8),
-              IconButton(
-                onPressed: () {
-                  showDialog(
-                    context: context,
-                    builder: (_) => SettingsDialog(),
-                  );
-                },
-                icon: Icon(Icons.settings),
-              ),
-            ],
-          ),
-        ],
-      ),
+                  builder: (_) => SettingsDialog(),
+                );
+              },
+              icon: Icon(Icons.settings),
+            ),
+          ],
+        ),
+      ],
     );
   }
 }

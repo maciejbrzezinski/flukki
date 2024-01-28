@@ -1,3 +1,4 @@
+import 'package:flukki/home/controllers/status_controller.dart';
 import 'package:get/get.dart';
 
 import '../../utils/di_utils.dart';
@@ -7,6 +8,9 @@ OutputController get outputController =>
 
 void addOutputLine(String line) {
   outputController.addOutputLine(line);
+  if (line.isNotEmpty) {
+    statusController.currentStep = line;
+  }
 }
 
 class OutputController {

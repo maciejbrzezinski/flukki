@@ -18,10 +18,9 @@ class OutputTextField extends StatelessWidget {
             curve: Curves.easeInOut);
       } catch (_) {}
     });
-    return Obx(() {
-        return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          child: TextField(
+    return Dialog(
+      child: Obx(() {
+          return TextField(
             scrollController: outputScrollController,
             controller: TextEditingController()..text = outputController.output,
             expands: true,
@@ -32,9 +31,9 @@ class OutputTextField extends StatelessWidget {
             decoration: const InputDecoration(
               hintText: 'Output',
             ),
-          ),
-        );
-      }
+          );
+        }
+      ),
     );
   }
 }
