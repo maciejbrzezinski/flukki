@@ -31,7 +31,6 @@ class OutputTextField extends StatelessWidget {
             textAlignVertical: TextAlignVertical.top,
             decoration: const InputDecoration(
               hintText: 'Output',
-              border: OutlineInputBorder(),
             ),
           ),
         );

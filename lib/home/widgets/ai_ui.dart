@@ -5,7 +5,7 @@ import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../core/brain/flukki_brain_controller.dart';
 import '../../core/output/controllers/output_controller.dart';
-import '../../core/current_project/current_project_controller.dart';
+import '../../current_project/controllers/current_project_controller.dart';
 
 class AiUi extends StatefulWidget {
   @override
@@ -51,7 +51,6 @@ class _AiUiState extends State<AiUi> {
                             horizontal: 8, vertical: 0),
                         hintText: currentProjectController.openAIKey ??
                             'Not set (required)',
-                        border: const OutlineInputBorder(),
                       ),
                       style: const TextStyle(fontSize: 12, height: 1.2),
                       onChanged: (value) {
@@ -84,11 +83,8 @@ class _AiUiState extends State<AiUi> {
                       'Current project: ${currentProjectController.currentProjectPath?.split('/').last ?? 'Not set (required)'}'),
                   const SizedBox(width: 16),
                   TextButton(
-                    onPressed: () => currentProjectController.chooseProject(),
-                    style: currentProjectController.currentProjectPath == null
-                        ? null
-                        : TextButton.styleFrom(primary: Colors.grey),
-                    child: const Text('Set project'),
+                    onPressed: () => currentProjectController.clearProject(),
+                    child: const Text('Close project'),
                   ),
                 ],
               ),
@@ -132,7 +128,6 @@ class _AiUiState extends State<AiUi> {
                                         controller: searchController,
                                         decoration: const InputDecoration(
                                           hintText: 'Search',
-                                          border: OutlineInputBorder(),
                                         ),
                                         onChanged: (value) {
                                           setState(
@@ -202,7 +197,7 @@ class _AiUiState extends State<AiUi> {
                                     decoration: InputDecoration(
                                         hintText:
                                             'Don\'t just stand there, code something!',
-                                        border: OutlineInputBorder()),
+                                    ),
                                   ),
                                 ),
                               ),

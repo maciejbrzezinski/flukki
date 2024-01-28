@@ -6,7 +6,7 @@ import '../../../ai/models/find_helpers_models.dart';
 import '../../../ai/models/mocking_analyse_model.dart';
 import '../../../ai/models/model_creation_models.dart';
 import '../../../core/utils/di_utils.dart';
-import '../../core/current_project/current_project_controller.dart';
+import '../../current_project/controllers/current_project_controller.dart';
 import '../models/determine_models_models.dart';
 import '../models/generate_tests_models.dart';
 

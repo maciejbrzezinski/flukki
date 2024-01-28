@@ -5,9 +5,9 @@ import 'package:file_picker/file_picker.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../output/controllers/output_controller.dart';
-import '../utils/di_utils.dart';
-import '../utils/file_utils.dart';
+import '../../core/output/controllers/output_controller.dart';
+import '../../core/utils/di_utils.dart';
+import '../../core/utils/file_utils.dart';
 
 CurrentProjectController currentProjectController =
     handleDependency(() => CurrentProjectController());
@@ -20,6 +20,7 @@ class CurrentProjectController {
   final _utilsFiles = RxList<String>();
   final _openAIKey = RxnString();
   final _loading = RxBool(false);
+  late SharedPreferences _sharedPrefs;
 
   String? get currentProjectPath => _currentProjectPath.value;
 
@@ -35,13 +36,13 @@ class CurrentProjectController {
 
   Future<void> init() async {
     _loading.value = true;
-    final sharedPrefs = await SharedPreferences.getInstance();
-    final path = sharedPrefs.getString('currentProjectPath');
-    final sdkPath = sharedPrefs.getString('dartSdkPath');
-    final mockingSteps = sharedPrefs.getString('mockingSteps');
-    final modelCreationSteps = sharedPrefs.getString('modelCreationSteps');
-    final utilsFiles = sharedPrefs.getStringList('utilsFiles');
-    final openAIKey = sharedPrefs.getString('openAIKey');
+    _sharedPrefs = await SharedPreferences.getInstance();
+    final path = _sharedPrefs.getString('currentProjectPath');
+    final sdkPath = _sharedPrefs.getString('dartSdkPath');
+    final mockingSteps = _sharedPrefs.getString('mockingSteps');
+    final modelCreationSteps = _sharedPrefs.getString('modelCreationSteps');
+    final utilsFiles = _sharedPrefs.getStringList('utilsFiles');
+    final openAIKey = _sharedPrefs.getString('openAIKey');
     if (path != null) {
       _currentProjectPath.value = path;
     }
@@ -75,9 +76,13 @@ class CurrentProjectController {
       selected = selected.replaceAll('/Volumes/Macintosh HD/', '/');
       _currentProjectPath.value = selected;
 
-      final sharedPrefs = await SharedPreferences.getInstance();
-      await sharedPrefs.setString('currentProjectPath', selected);
+      await _sharedPrefs.setString('currentProjectPath', selected);
     }
+  }
+
+  Future<void> clearProject() async {
+    _currentProjectPath.value = null;
+    await _sharedPrefs.remove('currentProjectPath');
   }
 
   Future<void> chooseDartSdkPath() async {
@@ -96,38 +101,33 @@ class CurrentProjectController {
       }
       _dartSdkPath.value = selectedSdkPath;
 
-      final sharedPrefs = await SharedPreferences.getInstance();
-      await sharedPrefs.setString('dartSdkPath', selectedSdkPath);
+      await _sharedPrefs.setString('dartSdkPath', selectedSdkPath);
     }
   }
 
   Future<void> saveMockingSteps(String steps) async {
     _mockingSteps.value = steps;
 
-    final sharedPrefs = await SharedPreferences.getInstance();
-    await sharedPrefs.setString('mockingSteps', steps);
+    await _sharedPrefs.setString('mockingSteps', steps);
   }
 
   Future<void> saveModelCreationSteps(String steps) async {
     _modelCreationSteps.value = steps;
 
-    final sharedPrefs = await SharedPreferences.getInstance();
-    await sharedPrefs.setString('modelCreationSteps', steps);
+    await _sharedPrefs.setString('modelCreationSteps', steps);
   }
 
   Future<void> saveUtilsFiles(List<String> files) async {
     _utilsFiles.value = files;
 
-    final sharedPrefs = await SharedPreferences.getInstance();
-    await sharedPrefs.setStringList('utilsFiles', files);
+    await _sharedPrefs.setStringList('utilsFiles', files);
   }
 
   Future<void> saveOpenAIKey(String key) async {
     _openAIKey.value = key;
     OpenAI.apiKey = key;
 
-    final sharedPrefs = await SharedPreferences.getInstance();
-    await sharedPrefs.setString('openAIKey', key);
+    await _sharedPrefs.setString('openAIKey', key);
   }
 
   List<String> getCurrentProjectDartFilesToTest() {

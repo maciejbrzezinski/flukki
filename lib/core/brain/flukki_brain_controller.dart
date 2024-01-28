@@ -9,7 +9,7 @@ import 'package:flukki/ai/controllers/tests_controller.dart';
 import 'package:get/get.dart';
 
 import '../output/controllers/output_controller.dart';
-import '../current_project/current_project_controller.dart';
+import '../../current_project/controllers/current_project_controller.dart';
 import '../utils/di_utils.dart';
 import '../utils/file_utils.dart';
 import '../../ai/models/add_file.dart';
