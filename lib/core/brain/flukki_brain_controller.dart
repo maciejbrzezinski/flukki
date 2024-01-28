@@ -34,7 +34,7 @@ class FlukkiBrainController {
   }
 
   Future<void> start(String task) async {
-    statusController.currentJob = 'Doing task: $task';
+    statusController.currentJob = task;
     if (task.isEmpty) {
       addOutputLine('Task is empty');
       addOutputLine('');

@@ -17,12 +17,12 @@ class Footer extends StatelessWidget {
           child: const Text('https://github.com/maciejbrzezinski/flukki'),
         ),
         TextButton(
-          onPressed: () => launchUrlString('https://flukki.com'),
+          onPressed: () => launchUrlString('https://dupa123'),
           style: TextButton.styleFrom(
             primary: Colors.grey,
             padding: EdgeInsets.zero,
           ),
-          child: const Text('https://flukki.com'),
+          child: const Text('https://dupa123'),
         )
       ],
     );

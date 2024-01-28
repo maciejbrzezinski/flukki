@@ -33,13 +33,16 @@ class _AiUiState extends State<AiUi> {
           Row(
             children: [
               Expanded(
-                child: TextField(
-                  controller: taskController,
-                  maxLines: 4,
-                  minLines: 4,
-                  decoration: InputDecoration(
-                    hintText:
-                        'Describe precisely what you want to change in your app',
+                child: SizedBox(
+                  height: 108,
+                  child: TextField(
+                    controller: taskController,
+                    maxLines: 4,
+                    minLines: 4,
+                    decoration: InputDecoration(
+                      hintText:
+                          'Describe precisely what you want to change in your app',
+                    ),
                   ),
                 ),
               ),
