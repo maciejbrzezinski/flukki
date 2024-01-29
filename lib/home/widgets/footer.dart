@@ -22,7 +22,7 @@ class Footer extends StatelessWidget {
             primary: Colors.grey,
             padding: EdgeInsets.zero,
           ),
-          child: const Text('https://dupa123'),
+          child: const Text('https://flukki.com'),
         )
       ],
     );
