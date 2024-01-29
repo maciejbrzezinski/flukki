@@ -22,6 +22,7 @@ class StatusController {
     _currentJob.value = job;
     _progress.value = Progress.inProgress;
     _jobStartTimestamp.value = DateTime.now();
+    _jobFinishTimestamp.value = null;
   }
 
   set currentStep(String step) {

@@ -25,6 +25,11 @@ class CurrentProjectController {
 
   String? get currentProjectPath => _currentProjectPath.value;
 
+  Future<void> setCurrentProjectPath(String? value) async {
+    _currentProjectPath.value = value;
+    await _sharedPrefs.setString('currentProjectPath', value!);
+  }
+
   String? get dartSdkPath => _dartSdkPath.value;
 
   String? get mockingSteps => _mockingSteps.value;

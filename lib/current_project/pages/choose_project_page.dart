@@ -1,7 +1,11 @@
+import 'package:flukki/core/brain/flukki_brain_controller.dart';
 import 'package:flukki/current_project/controllers/current_project_controller.dart';
 import 'package:flutter/material.dart';
 
 class ChooseProjectPage extends StatelessWidget {
+  final descriptionTextController = TextEditingController();
+  final nameTextController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,8 +29,19 @@ class ChooseProjectPage extends StatelessWidget {
               ),
               Row(
                 children: [
+                  SizedBox(
+                    width: 100,
+                    child: TextField(
+                        controller: nameTextController,
+                        decoration: InputDecoration(
+                          hintText: 'Name',
+                          hintStyle: Theme.of(context).textTheme.bodyText2,
+                        )),
+                  ),
+                  SizedBox(width: 8),
                   Expanded(
                     child: TextField(
+                      controller: descriptionTextController,
                       decoration: InputDecoration(
                         hintText: 'Describe your app',
                         hintStyle: Theme.of(context).textTheme.bodyText2,
@@ -38,7 +53,10 @@ class ChooseProjectPage extends StatelessWidget {
                     height: 54,
                     width: 150,
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () => flukkiBrainController.generateProject(
+                        nameTextController.text,
+                        descriptionTextController.text,
+                      ),
                       child: Text('Generate'),
                     ),
                   ),

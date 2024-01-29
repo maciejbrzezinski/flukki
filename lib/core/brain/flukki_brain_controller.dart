@@ -9,6 +9,7 @@ import 'package:flukki/ai/controllers/tests_controller.dart';
 import 'package:flukki/home/controllers/status_controller.dart';
 import 'package:get/get.dart';
 
+import '../../generator/controllers/new_project_controller.dart';
 import '../output/controllers/output_controller.dart';
 import '../../current_project/controllers/current_project_controller.dart';
 import '../utils/di_utils.dart';
@@ -31,6 +32,21 @@ class FlukkiBrainController {
 
   set isWorking(bool value) {
     _isWorking.value = value;
+  }
+
+  Future<void> generateProject(String name, String description) async {
+    statusController.currentJob = 'Generating project from description';
+    addOutputLine('Hello, starting project generation for this description:');
+    addOutputLine(description);
+
+    addOutputLine('Creating new Flutter project...');
+    final plainProject =
+        await newProjectController.createNewFlutterProject(name);
+    addOutputLine('New Flutter project created!');
+
+    await currentProjectController.setCurrentProjectPath(plainProject);
+
+    await start(description);
   }
 
   Future<void> start(String task) async {
@@ -155,8 +171,16 @@ class FlukkiBrainController {
       for (final change in smallerTasks.fileChangeDescriptions) {
         addOutputLine('Working on file: ${change.path}');
         if (change.isFileCreated) {
-          final similarFileContent =
-              await File('$project/${change.similarFilePath}').readAsString();
+          String? similarFileContent;
+
+          if (change.similarFilePath != null) {
+            similarFileContent =
+                await File('$project/${change.similarFilePath}').readAsString();
+          } else {
+            similarFileContent =
+                'No similar file found, create a new one from scratch';
+          }
+
           final addRequest = AddFileRequest(
             newFileDescription: change.changeDescriptions,
             allChangesDescriptions: smallerTasks.toString(),
@@ -165,7 +189,11 @@ class FlukkiBrainController {
             similarFile: similarFileContent,
           );
           final result = await tasksAIController.addFile(addRequest);
-          File('$project/${change.path}').writeAsStringSync(result.message);
+          final file = File('$project/${change.path}');
+          if (!file.existsSync()) {
+            file.createSync(recursive: true);
+          }
+          file.writeAsStringSync(result.message);
           addOutputLine('File created: ${change.path}');
         } else {
           final content = await File('$project/${change.path}').readAsString();
@@ -186,6 +214,7 @@ class FlukkiBrainController {
       addOutputLine('');
       statusController.finish('I\'m done, bye');
     } catch (e, s) {
+      statusController.finishWithError(e.toString());
       addOutputLine(e.toString() + s.toString());
     }
     return;
