@@ -1,6 +1,5 @@
 # Flukki: Streamlining App Development
-![Zrzut ekranu 2024-01-17 o 18 01 28](https://github.com/maciejbrzezinski/flukki/assets/34410554/7a6c581c-226c-4d7d-bd60-eb2d4e3ec2ad)
-🎉 First commit developed by Flukki: https://github.com/maciejbrzezinski/flukki/commit/70cd801fcef6b45d094fcf217e62698ada79b884 (it has done the task shown on the screenshot above!)
+![Zrzut ekranu 2024-02-04 o 13 09 28 PM](https://github.com/maciejbrzezinski/flukki/assets/34410554/536bd37c-61a4-4a4f-9be9-5dd995659b25)
 
 ## Description
 Flukki is an open-source tool designed to revolutionize the way developers approach app development.
@@ -10,11 +9,12 @@ Flukki aims to simplify and speed up the development process.
 
 ## Current State
 As of now, Flukki is capable of:
-- Writing unit tests automatically, saving time and effort in the testing phase.
+- Generating apps from description
 - Enhancing the logic of existing Flutter applications.
+- Writing unit tests automatically, saving time and effort in the testing phase.
 
 ## What's Next?
-- **App Generation from Descriptions**: The next big step for Flukki is to start working on generating entire applications from scratch based on user descriptions.
+- **AMore reliable code generator**: Currently you may get some compilation errors in generated apps.
 
 ## How to Run Flukki
 To get started with Flukki:
