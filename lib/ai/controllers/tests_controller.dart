@@ -21,7 +21,7 @@ class TestsAIController {
     int numberOfLines = 100;
     Future<void> write() async {
       final response = await OpenAI.instance.chat.create(
-          model: 'gpt-4-1106-preview',
+          model: 'gpt-4-0125-preview',
           messages: [
             OpenAIChatCompletionChoiceMessageModel(
                 role: OpenAIChatMessageRole.system,
@@ -131,7 +131,7 @@ class TestsAIController {
   Future<MockingAnalyseResponse> _getMockingSteps(
       MockingAnalyseRequest request) async {
     final response = await OpenAI.instance.chat.create(
-        model: 'gpt-4-1106-preview',
+        model: 'gpt-4-0125-preview',
         messages: [
           OpenAIChatCompletionChoiceMessageModel(
               role: OpenAIChatMessageRole.system,
@@ -195,7 +195,7 @@ class TestsAIController {
   Future<ModelCreationResponse> getModelCreationSteps(
       ModelCreationRequest request) async {
     final response = await OpenAI.instance.chat.create(
-        model: 'gpt-4-1106-preview',
+        model: 'gpt-4-0125-preview',
         messages: [
           OpenAIChatCompletionChoiceMessageModel(
               role: OpenAIChatMessageRole.system,
@@ -259,7 +259,7 @@ class TestsAIController {
 
   Future<FindHelpersResponse> findHelpers(FindHelpersRequest request) async {
     final response = await OpenAI.instance.chat.create(
-        model: 'gpt-4-1106-preview',
+        model: 'gpt-4-0125-preview',
         messages: [
           OpenAIChatCompletionChoiceMessageModel(
               role: OpenAIChatMessageRole.system,
@@ -326,7 +326,7 @@ class TestsAIController {
   Future<DetermineModelsResponse> determineModels(
       DetermineModelsRequest model) async {
     final response = await OpenAI.instance.chat.create(
-        model: 'gpt-4-1106-preview',
+        model: 'gpt-4-0125-preview',
         messages: [
           OpenAIChatCompletionChoiceMessageModel(
               role: OpenAIChatMessageRole.system,

@@ -12,7 +12,7 @@ TasksAIController get tasksAIController =>
 class TasksAIController {
   Future<SplitTaskResult> splitTask(SplitTaskRequest splitTaskRequest) async {
     final response = await OpenAI.instance.chat.create(
-        model: 'gpt-4-1106-preview',
+        model: 'gpt-4-0125-preview',
         messages: [
           OpenAIChatCompletionChoiceMessageModel(
               role: OpenAIChatMessageRole.system,
@@ -153,7 +153,7 @@ class TasksAIController {
 
     Future<void> modify() async {
       final response = await OpenAI.instance.chat.create(
-          model: 'gpt-4-1106-preview',
+          model: 'gpt-4-0125-preview',
           messages: messages,
           functions: [
             OpenAIFunctionModel.withParameters(
@@ -206,7 +206,7 @@ class TasksAIController {
 
   Future<SimpleResponse> addFile(AddFileRequest addFileRequest) async {
     final response = await OpenAI.instance.chat.create(
-        model: 'gpt-4-1106-preview',
+        model: 'gpt-4-0125-preview',
         messages: [
           OpenAIChatCompletionChoiceMessageModel(
               role: OpenAIChatMessageRole.system,
@@ -263,6 +263,93 @@ class TasksAIController {
       message:
           response.choices.first.message.functionCall!.arguments!['newContent'],
       usedTokens: response.usage.totalTokens,
+    );
+  }
+
+  Future<SimpleResponse> repairFile(String fileContent, String errors) async {
+    String finalContent = '';
+    int usedTokens = 0;
+    int numberOfLines = 100;
+
+    final messages = [
+      OpenAIChatCompletionChoiceMessageModel(
+          role: OpenAIChatMessageRole.system,
+          content:
+              'Wciel się w rolę senior flutter developera. Twoim zadaniem jest naprawa pliku, którty się nie kompiluje'),
+      OpenAIChatCompletionChoiceMessageModel(
+          role: OpenAIChatMessageRole.user,
+          content: 'Napraw ten plik: <file>$fileContent</file>'),
+      OpenAIChatCompletionChoiceMessageModel(
+          role: OpenAIChatMessageRole.system,
+          content: 'Oto błędy jakie są do naprawy: $errors'),
+      OpenAIChatCompletionChoiceMessageModel(
+          role: OpenAIChatMessageRole.system,
+          content:
+              'Niech odpowiedź będzie tak dokładna i szczególowa jak to możliwe, bez zbędnego skracania'),
+      OpenAIChatCompletionChoiceMessageModel(
+          role: OpenAIChatMessageRole.system,
+          content:
+              'Cały plik zostanie zwrócony w kilku odpowiedziach, więc na razy wysyłaj maksymalnie $numberOfLines linijek kodu. Nie skracaj go w żaden sposób.'),
+      OpenAIChatCompletionChoiceMessageModel(
+          role: OpenAIChatMessageRole.system,
+          content:
+              'Cały plik zostanie zwrócony w kilku odpowiedziach, więc na razy wysyłaj maksymalnie $numberOfLines linijek kodu. Nie skracaj go w żaden sposób.'),
+      OpenAIChatCompletionChoiceMessageModel(
+          role: OpenAIChatMessageRole.system,
+          content:
+              'W każdej kolejnej iteracji będziesz dostawał odpowiedzi modelu z już częściowo naprawionym plikiem. Wtedy będziesz mógł kontynuować naprawę pliku.'),
+    ];
+
+    Future<void> repair() async {
+      final response = await OpenAI.instance.chat.create(
+          model: 'gpt-4-0125-preview',
+          messages: messages,
+          functions: [
+            OpenAIFunctionModel.withParameters(
+              name: 'saveNewContent',
+              description:
+                  'Modified content of the file, max $numberOfLines lines',
+              parameters: [
+                OpenAIFunctionProperty.string(
+                  name: 'content',
+                  description:
+                      'Next $numberOfLines lines of file content, it should continue the content of previous response',
+                  isRequired: true,
+                ),
+                OpenAIFunctionProperty.boolean(
+                    name: 'isWholeFileReturned',
+                    description:
+                        'Indicates if whole file was already returned in the conversation',
+                    isRequired: true),
+              ],
+            ),
+          ],
+          functionCall: FunctionCall.forFunction('saveNewContent'));
+      messages.add(response.choices.first.message);
+      usedTokens = response.usage.totalTokens;
+
+      final newContent = response
+          .choices.first.message.functionCall!.arguments!['content']
+          .toString()
+          .trim();
+      if (finalContent.split('\n').last.isNotEmpty &&
+          !newContent.startsWith('\n')) {
+        finalContent += '\n';
+      }
+      finalContent += newContent;
+
+      final isWholeFileReturned = response.choices.first.message.functionCall!
+          .arguments!['isWholeFileReturned'];
+      if (!isWholeFileReturned) {
+        await repair();
+      }
+    }
+
+    await repair();
+
+    return SimpleResponse(
+      message: finalContent,
+      usedTokens: usedTokens,
     );
   }
 }

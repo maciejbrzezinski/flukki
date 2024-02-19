@@ -34,6 +34,35 @@ class FlukkiBrainController {
     _isWorking.value = value;
   }
 
+  Future<void> makeSureCodeCompiles(String filePath) async {
+    addOutputLine('Making sure code compiles... [$filePath]');
+    Future<String?> getCompilationErrors() async {
+      final result = await Process.run(
+        'flutter',
+        ['analyze', filePath],
+        runInShell: true,
+      );
+
+      return result.stdout.toString();
+    }
+
+    for (var i = 0; i < 3; i++) {
+      final errors = await getCompilationErrors();
+      if (errors == null || errors.isEmpty || !errors.contains('error')) {
+        addOutputLine('Code compiles :) [$filePath]');
+        return;
+      } else {
+        addOutputLine('${i + 1} attempt to repair file...');
+        final file = File(filePath);
+        final fileContent = file.readAsStringSync();
+        final result = await tasksAIController.repairFile(fileContent, errors);
+        file.writeAsStringSync(result.message);
+      }
+    }
+    addOutputLine(
+        'Error: File $filePath is not compiling and Flukki was not able to repair it after 3 attempts');
+  }
+
   Future<void> generateProject(String name, String description) async {
     statusController.currentJob = 'Generating project from description';
     addOutputLine('Hello, starting project generation for this description:');
@@ -208,6 +237,7 @@ class FlukkiBrainController {
           File('$project/${change.path}').writeAsStringSync(result.message);
           addOutputLine('File modified: ${change.path}');
         }
+        await makeSureCodeCompiles('$project/${change.path}');
         addOutputLine('');
       }
 
